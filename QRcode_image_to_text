@@ -1,0 +1,43 @@
+"""
+This code decodes QR codes in an image using OpenCV (cv2).
+
+What this code does:
+1. Reads an image where QR codes may be present.
+2. Converts the image to grayscale for processing.
+3. Detects QR codes in the image.
+4. Decodes the content of the detected QR codes.
+5. Prints the content of the decoded QR codes.
+
+What you need to modify:
+- Ensure OpenCV is installed: 'pip install opencv-python'.
+- Provide the correct location of the image in the variable 'image_path'.
+- Ensure the image contains a valid QR code.
+
+Notes:
+- If multiple QR codes are detected, the contents of all QR codes are printed separately.
+- If no QR code is detected, an appropriate message is printed.
+"""
+
+import cv2
+import numpy as np
+
+def decode_qr_code(image_path):
+    # Read the image
+    image = cv2.imread(image_path)
+    # Convert to grayscale
+    gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
+    # Detect QR codes
+    qr_decoder = cv2.QRCodeDetector()
+    retval, decoded_info, points, straight_qrcode = qr_decoder.detectAndDecodeMulti(gray)
+    # If QR codes are detected, print the content
+    if retval:
+        print("Content of QR code(s):")
+        for info in decoded_info:
+            print(info)
+    else:
+        print("No QR code found in the image.")
+
+if __name__ == "__main__":
+    # Location of the QR code image
+    image_path = '/storage/emulated/0/DCIM/Screenshots/IMG_20240311_203059.jpg'
+    decode_qr_code(image_path)
